@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors')
 const helmet = require('helmet')
+POKEDEX = require('./MOVIEDEX.json')
 const app = express();
 
 app.use(morgan('common'));
