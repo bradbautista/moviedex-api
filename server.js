@@ -124,4 +124,6 @@ const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {});
 
+// Export commented out because Heroku doesn't like it; 
+// uncomment to re-enable testing
 // module.exports = server;
