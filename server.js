@@ -8,7 +8,8 @@ const app = express();
 
 // Middleware pipeline; keep helmet before cors.
 
-app.use(morgan('common'));
+const morganSetting = process.env.NODE_ENV === 'production' ? 'tiny' : 'common'
+app.use(morgan(morganSetting))
 app.use(helmet());
 app.use(cors());
 
@@ -99,14 +100,28 @@ app.get('/movie', handleGetMovies)
 
 //////////////////////////////////
 //////////////////////////////////
+///// EXPRESS ERROR HANDLING /////
+//////////////////////////////////
+//////////////////////////////////
+
+app.use((error, req, res, next) => {
+  let response
+  if (process.env.NODE_ENV === 'production') {
+    response = { error: { message: 'server error' }}
+  } else {
+    response = { error }
+  }
+  res.status(500).json(response)
+})
+
+//////////////////////////////////
+//////////////////////////////////
 //// LISTEN ON SPECIFIED PORT ////
 //////////////////////////////////
 //////////////////////////////////
 
-const portNo = 8000
+const PORT = process.env.PORT || 8000;
 
-const server = app.listen(portNo, () => {
-    console.log(`Server listening on port ${portNo}`);
-});
+app.listen(PORT, () => {});
 
 module.exports = server;
